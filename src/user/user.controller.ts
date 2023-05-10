@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Put, Delete, Param } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { UserMSG } from '@common/constants';
@@ -35,4 +35,24 @@ export class UserController {
     delete(@Payload() id: string) {
         return this._userService.delete(id);
     }
+
+    @MessagePattern(UserMSG.CONFIRMED)
+    confirmedUser(@Payload() token: string) {
+        return this._userService.confirmedUser(token);
+    }
+
+    @MessagePattern(UserMSG.VALID_USER)
+    async validateUser(@Payload() payload: any) {
+        const user = await this._userService.findByUsername(payload.username);
+
+        const isValidPassword = await this._userService.checkPassword(
+            payload.password,
+            user.password
+        );
+
+        if (user && isValidPassword) return user;
+
+        return null;
+    }
+
 }
