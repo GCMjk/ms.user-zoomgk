@@ -6,6 +6,7 @@ import * as uuid from 'uuid';
 
 import { USER } from '@common/models/models';
 import { IUser } from '@common/interfaces/user.interface';
+import { IFile } from '@common/interfaces/file.interface';
 import { UserDTO } from './dto/user.dto';
 
 import { EmailService } from '@/email/email.service';
@@ -49,11 +50,11 @@ export class UserService {
     }
 
     async findAll (): Promise<IUser[]> {
-        return await this.model.find();
+        return await this.model.find().populate('subscriptionID');
     }
 
     async findOne (id: string): Promise<IUser> {
-        return await this.model.findById(id);
+        return await this.model.findById(id).populate('subscriptionID');
     }
 
     async update (id: string, userDTO: UserDTO): Promise<IUser> {
@@ -90,5 +91,21 @@ export class UserService {
             status: HttpStatus.OK,
             message: 'User deleted successfully'
         }
+    }
+
+    async assignedSubscription (userId: string, subscriptionId: string): Promise<IUser> {
+        return await this.model.findByIdAndUpdate(
+            userId,
+            { subscriptionID: subscriptionId },
+            { new: true }
+        ).populate('subscriptionID');
+    }
+
+    async uploadAvatar (id: string, avatar: IFile): Promise<IUser> {
+        return await this.model.findByIdAndUpdate(
+            id,
+            { avatar },
+            { new: true }
+        );
     }
 }

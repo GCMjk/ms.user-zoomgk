@@ -2,6 +2,7 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
 import { UserMSG } from '@common/constants';
+import { IFile } from '@common/interfaces/file.interface';
 import { UserService } from './user.service';
 import { UserDTO } from './dto/user.dto';
 
@@ -53,6 +54,16 @@ export class UserController {
         if (user && isValidPassword) return user;
 
         return null;
+    }
+
+    @MessagePattern(UserMSG.ASSIGNED_SUB)
+    async assignedSubscription(@Payload() { userId, subscriptionId }: { userId: string, subscriptionId: string }) {
+        return this._userService.assignedSubscription(userId, subscriptionId);
+    }
+
+    @MessagePattern(UserMSG.UPLOAD_AVATAR)
+    async uploadAvatar(@Payload() { id, avatar }: { id: string, avatar: IFile }) {
+        return this._userService.uploadAvatar(id, avatar);
     }
 
 }

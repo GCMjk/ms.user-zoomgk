@@ -1,3 +1,5 @@
+import { IFile } from "./file.interface";
+
 export interface IUser extends Document {
     _id: string;
     firstname: string;
@@ -9,7 +11,7 @@ export interface IUser extends Document {
     password: string;
     role: RoleEnum;
     subscriptionID?: string;
-    avatar: string;
+    avatar: IFile;
     confirmed: boolean;
     confirmationToken: string;
     available: boolean;
@@ -22,6 +24,5 @@ export enum GenderEnum {
 
 export enum RoleEnum {
     ADMIN = 'ADMIN',
-    CLIENT = 'CLIENT',
-    GUEST = 'GUEST'
+    CLIENT = 'CLIENT'
 }

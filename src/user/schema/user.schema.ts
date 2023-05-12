@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { FileSchema } from './file.schema';
 
 export const UserSchema = new mongoose.Schema({
     firstname: { type: String, required: true },
@@ -10,7 +11,7 @@ export const UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     role: { type: String, enum: ['ADMIN', 'CLIENT', 'GUEST'], default: 'CLIENT' },
     subscriptionID: { type: mongoose.Types.ObjectId, ref: 'subscriptions', required: false },
-    avatar: { type: String, required: false },
+    avatar: { type: FileSchema, default: { ETag: '', key: '', url: '' }, required: false },
     confirmed: { type: Boolean, default: false },
     confirmationToken: { type: String, required: false },
     available: { type: Boolean, default: true },
