@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 
 export const FileSchema = new mongoose.Schema({
-    ETag: { type: String, required: true },
-    key: { type: String, required: true },
-    url: { type: String, required: true }
+    ETag: String,
+    key: String,
+    url: String
 }, { _id: false });
