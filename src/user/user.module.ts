@@ -6,7 +6,6 @@ import { UserService } from './user.service';
 import { USER, SUBSCRIPTION } from '@common/models/models';
 import { UserSchema } from './schema/user.schema';
 import { SubscriptionSchema } from './schema/subscription.schema';
-import { EmailModule } from '@/email/email.module';
 
 @Module({
   imports: [
@@ -19,8 +18,7 @@ import { EmailModule } from '@/email/email.module';
         name: SUBSCRIPTION.name,
         useFactory: () => SubscriptionSchema
       }
-    ]),
-    EmailModule
+    ])
   ],
   controllers: [UserController],
   providers: [UserService]

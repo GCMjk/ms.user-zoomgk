@@ -5,7 +5,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
-import { EmailModule } from './email/email.module';
 
 @Module({
   imports: [
@@ -20,8 +19,7 @@ import { EmailModule } from './email/email.module';
         useUnifiedTopology: true,
       }
     ),
-    UserModule,
-    EmailModule
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],

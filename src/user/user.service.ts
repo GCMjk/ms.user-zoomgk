@@ -9,14 +9,11 @@ import { IUser } from '@common/interfaces/user.interface';
 import { IFile } from '@common/interfaces/file.interface';
 import { UserDTO } from './dto/user.dto';
 
-import { EmailService } from '@/email/email.service';
-
 @Injectable()
 export class UserService {
 
     constructor(
-        @InjectModel(USER.name) private readonly model: Model<IUser>,
-        private readonly emailService: EmailService
+        @InjectModel(USER.name) private readonly model: Model<IUser>
     ) {}
 
     async checkPassword(password: string, passwordDB: string): Promise<boolean> {
@@ -40,11 +37,6 @@ export class UserService {
             password: hash,
             confirmationToken
         });
-
-        await this.emailService.sendConfirmationEmail(
-            newUser.email,
-            confirmationToken,
-        );
 
         return await newUser.save();
     }
